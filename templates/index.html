@@ -1,0 +1,63 @@
+{% extends 'header.html' %}
+{% load static %}
+{% block body %}
+<head>
+<title>Cadastro de Certificados</title>
+<link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'table_listcert.css' %}">
+
+</head>
+    <main>
+        <section>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th style="text-align: center;">EMPRESA/PESSOA</th>
+                        <th style="text-align: center;">CPF/CNPJ</th>
+                        <th style="text-align: center;">RESPONSÁVEL</th>
+                        <th style="text-align: center;">FONE</th>
+                        <th style="text-align: center;">TIPO</th>
+                        <th style="text-align: center;">DATA COMPRA</th>
+                        <th style="text-align: center;">DATA VENCIMENTO</th>
+                        <th style="text-align: center;">DIAS EXP.</th>
+                        <th style="text-align: center;">OPÇÕES/ALTERAR</th>
+                    </tr>
+                </thead>
+                <tbody id="box">
+                    {% if certificados %}
+                        {% for certificado in certificados %}
+                            <tr>
+                                <td>{{ certificado.empresa }}</td>
+                                <td>{{ certificado.cnpj }}</td>
+                                <td>{{ certificado.responsavel }}</td>
+                                <td>{{ certificado.fone }}</td>
+                                <td>{{ certificado.tipo }}</td>
+                                <td>{{ certificado.datacompra|date:"d/m/y" }}</td>
+                                <td>{{ certificado.datavencimento|date:"d/m/y" }}</td>
+                                {% if certificado.verifica_expirou  %}
+                                    <td style="color: red; font-weight: bold">Expirou</td>
+                                {% else %}
+                                    <td>{{ certificado.calcula_dias_vencimento }}</td>
+                                {% endif %}
+                                <td>
+                                    <a href="{% url 'editar_certificado' certificado.cod_cert %}" data-toggle="tooltip" title data-original-title="Alterar">
+                                        <img src="{% static 'images/alterar.jpg' %}">
+                                    </a>
+                                    |
+                                    <a href="{% url 'excluir_certificado' certificado.cod_cert %}" data-toggle="tooltip" title="Excluir" onclick="return confirm('Tem certeza que deseja excluir o certificado de {{ certificado.empresa }}?')">
+                                        <img src="{% static 'images/excluir.jpg' %}">
+                                    </a>
+                                    |
+                                    <a href="#" data-toggle="tooltip" title="Cadastrado por {{ certificado.funcionario }}em {{ certificado.datacadastro }}">
+                                        <img src="{% static 'images/info.jpg' %}">
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+{% endblock %}

@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+
+    <title>Cadastro de Certificados</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+    <link rel="icon" href="{% static 'images/logo-adm.jpg' %}">
+
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.maskedinput.min.js' %}"></script>
+
+    <div id="menu">
+        <ul class="menu">
+            <li><a href="{% url 'listar_certificados' %}">Home</a></li>
+            <!--<li><img src="images/menu_header_sp.png" alt="" /></li>-->
+            <li><a href="{% url 'cadastrar_certificado' %}">Cadastrar Certificado</a></li>
+            <li><a href="{% url 'cadastrar_usuario' %}">Cadastrar Usuario</a></li>
+            <li><a href="">Relatórios</a></li>
+            <li><a href="{% url 'listar_a_vencer' %}">Lista a Vencer</a></li>
+            <li><a href="{% url 'listar_vencidos' %}">Lista Vencidos</a></li>
+            <li><a href="">Versão</a></li>
+            <div id=ola align="right"> Olá, {{ user.first_name }}
+                <a href="{% url 'logout' %}"><img src="{% static 'images/logout.png' %}" alt='Sair do Sistema'/> </a></div>
+        </ul>
+    </div>
+
+    <div id="header">
+    </div>
+
+
+<body>
+    {% block body %}
+    {% endblock %}
+</body>
+
+</html>

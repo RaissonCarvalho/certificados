@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt_BR">
+<head>
+    <title>Cadastro de Certificados</title>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+    <link rel="icon" href="{% static 'images/logo-adm.jpg' %}">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.maskedinput.min.js' %}"></script>
+
+    <script type="text/javascript">
+        //JavaScript goes here
+    </script>
+</head>
+<body>
+
+    </br>
+    </br>
+    </br>
+    </br>
+    </br>
+    </br>
+    </br>
+
+    <div id="logo_adm_login"></div>
+    <div id="login">
+
+        <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            <label>Usuário</label>
+            </br>
+            <input type="text" name="username" maxlength="50" id="id_username" required autofocus/>
+            </br>
+            <label>Senha</label></br>
+            <input type="password" name="password" maxlength="50" id="id_password" required/>
+            </br></br>
+            <button type="submit" class="btn-group-justified">Entrar</button>
+
+            {% if form.errors %}
+                <br>
+                <br>
+                <br>
+                <div class="alert alert-danger">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    Por favor, verifique o Usuário e/ou Senha informados
+                </div>
+            {% endif %}
+        </form>
+    </div>
+
+</body>
+</html>
