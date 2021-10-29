@@ -2,16 +2,17 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-
-    <title>Cadastro de Certificados</title>
     <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
     <link rel="icon" href="{% static 'images/logo-adm.jpg' %}">
-
 
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="{% static 'js/jquery.maskedinput.min.js' %}"></script>
+
+    {% block head %}
+
+    {% endblock %}
 
     <div id="menu">
         <ul class="menu">

@@ -4,15 +4,12 @@
 <title>Cadastro de Certificados</title>
 <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
 
-<script type="text/javascript">
-
-</script>
 </head>
 {% block body %}
 
 
 <div>
-    <form method="post" name="cadastro" action="{% url 'cadastrar_certificado' %}" id="cadastro" enctype="multipart/form-data">
+    <form method="post" name="cadastro" action="{% url 'editar_certificado' certificados.cod_cert %}" id="cadastro" enctype="multipart/form-data">
         {% csrf_token %}
         <table id="cad_table">
             <tbody>

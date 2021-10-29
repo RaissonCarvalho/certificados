@@ -1,13 +1,13 @@
 from django.contrib.auth.decorators import login_required
 from core.forms import CertificadoForm, UsuarioForm
-from django.views.generic import UpdateView, View
-from core.models import Certificados, Usuarios
+from django.views.generic import UpdateView
 from django.contrib.auth.models import User
+from django.template import RequestContext
 from django.shortcuts import redirect
+from core.models import Certificados
 from django.shortcuts import render
 from django.db import transaction
 import json
-
 
 
 def get_user(request):
@@ -15,13 +15,15 @@ def get_user(request):
 
     return user
 
+
 @login_required()
 def listar_certificados(request):
     certificados = Certificados.objects.all().order_by('empresa')
     certificados_json = json.dumps(list(Certificados.objects.values()), default=str)
     user = get_user(request)
 
-    return render(request, 'index.html', {'certificados': certificados, 'certificados_json': certificados_json, 'user': user})
+    return render(request, 'index.html',
+                  {'certificados': certificados, 'certificados_json': certificados_json, 'user': user})
 
 
 @login_required()
@@ -38,7 +40,7 @@ def cadastrar_certificado(request):
             responsavel=dados_form['responsavel'],
             tipo=dados_form['tipo'],
             fone=dados_form['fone'],
-            funcionario=request.user.first_name+ " " +request.user.last_name)
+            funcionario=request.user.first_name + " " + request.user.last_name)
         certificado.save()
         return redirect('listar_certificados')
 
@@ -65,7 +67,7 @@ def listar_a_vencer(request):
         if not certificado.verifica_expirou() and certificado.calcula_dias_vencimento() <= 15:
             certificados_a_vencer.append(certificado)
 
-    return render(request, 'certificados_a_vencer.html', {'certificados_a_vencer': certificados_a_vencer})
+    return render(request, 'lista_a_vencer.html', {'certificados_a_vencer': certificados_a_vencer})
 
 
 @login_required()
@@ -77,23 +79,18 @@ def excluir_certificado(request, cod_cert):
     return redirect('listar_certificados')
 
 
-
 class EditarCertificadoView(UpdateView):
     model = Certificados
     template_name = 'editar_certificado.html'
-    fields = [
-        'empresa',
-        'cnpj',
-        'responsavel',
-        'fone',
-        'tipo',
-        'datacompra',
-        'datavencimento', ]
+    form_class = CertificadoForm
+    success_url = 'listar_certificado'
+
+    # def get
 
 
 def cadastrar_usuario(request):
     form = UsuarioForm(request.POST or None)
-    if request.method == 'POST' and form.is_valid():
+    if request.method == "POST" and form.is_valid():
         dados_form = form.cleaned_data
         User.objects.create_user(
             username=dados_form['usuario'],

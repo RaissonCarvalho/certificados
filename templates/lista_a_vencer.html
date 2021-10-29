@@ -3,7 +3,7 @@
 {% block body %}
     <head>
         {% block head %}
-            <title>Lista Vencidos</title>
+            <title>Lista a Vencer</title>
             <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
             <link rel="stylesheet" type="text/css" href="{% static 'table_listcert.css' %}">
         {% endblock %}
@@ -26,8 +26,8 @@
                 </tr>
                 </thead>
                 <tbody>
-                {% if certificados_vencidos %}
-                    {% for certificado in certificados_vencidos %}
+                {% if certificados_a_vencer %}
+                    {% for certificado in certificados_a_vencer %}
                         <tr>
                             <td>{{ certificado.empresa }}</td>
                             <td>{{ certificado.cnpj }}</td>
@@ -36,19 +36,19 @@
                             <td>{{ certificado.tipo }}</td>
                             <td>{{ certificado.datacompra|date:"d/m/y" }}</td>
                             <td>{{ certificado.datavencimento|date:"d/m/y" }}</td>
-                            <td style="color: red; font-weight: bold">Expirou em {{ certificado.datavencimento }}</td>
+                            <td style="color: red; font-weight: bold">Expira
+                                em {{ certificado.calcula_dias_vencimento }} dias
+                            </td>
                             <td>
                                 <a href="#" data-toggle="tooltip" title data-original-title="Renovar Certificado">
                                     <img src="{% static 'images/renovar.jpg' %}">
                                 </a>
                                 |
-                                <a href="{% url 'editar_certificado' certificado.cod_cert %}" data-toggle="tooltip"
-                                   title data-original-title="Alterar">
+                                <a href="#" data-toggle="tooltip" title="Alterar {{ certificado.empresa }}">
                                     <img src="{% static 'images/alterar.jpg' %}">
                                 </a>
                                 |
-                                <a href="{% url 'excluir_certificado' certificado.cod_cert %}" data-toggle="tooltip"
-                                   title="Excluir">
+                                <a href="#" data-toggle="tooltip" title="Excluir">
                                     <img src="{% static 'images/excluir.jpg' %}">
                                 </a>
                             </td>
