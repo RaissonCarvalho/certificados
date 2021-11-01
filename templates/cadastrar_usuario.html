@@ -3,9 +3,9 @@
 <head>
 
     {% block head %}
-    <title>Cadastro de Usuários</title>
-    <link rel="stylesheet" href="{% static 'styles.css' %}">
-{% endblock %}
+        <title>Cadastro de Usuários</title>
+        <link rel="stylesheet" href="{% static 'styles.css' %}">
+    {% endblock %}
 </head>
 
 {% block body %}
@@ -22,7 +22,8 @@
                     </tr>
                 {% endfor %}
                 <td><input type="submit" value="Cadastrar" id="btnCad"/></td>
-                <td><a href="{% url 'listar_certificados' %}"><input type="button" value="Cancelar" class="btn" id="btnCancelar"/></a></td>
+                <td><a href="{% url 'listar_certificados' %}"><input type="button" value="Cancelar" class="btn"
+                                                                     id="btnCancelar"/></a></td>
                 {% if form.errors %}
                     {{ form.non_field_errors }}
                 {% endif %}

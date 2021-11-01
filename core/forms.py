@@ -8,14 +8,6 @@ from django.forms.utils import ErrorList
 
 
 class CertificadoForm(forms.ModelForm):
-    # empresa = forms.CharField(required=True, label='Empresa/Pessoa:')
-    # cnpj = forms.CharField(required=True, label='CNPJ:')
-    # responsavel = forms.CharField(required=False, label='Responsável:')
-    # fone = forms.CharField(required=False)
-    # tipo = forms.ChoiceField(choices=Certificados.tipos, label='Selecione um tipo', required=True)
-    # datacompra = forms.DateField(required=True)
-    # datavencimento = forms.DateField(required=True)
-
     class Meta:
         model = Certificados
         fields = [
@@ -34,11 +26,6 @@ class CertificadoForm(forms.ModelForm):
         empresa_exists = Certificados.objects.filter(empresa=self.cleaned_data['empresa']).exists()
         if empresa_exists:
             self.adiciona_erro('Já existe certificado cadastrado para essa empresa!')
-            valid = False
-
-        cnpj_exists = Certificados.objects.filter(cnpj=self.cleaned_data['cnpj']).exists()
-        if cnpj_exists:
-            self.adiciona_erro('Já existe certificado cadastrado para esse CNPJ')
             valid = False
 
         if self.cleaned_data['datacompra'] >= self.cleaned_data['datavencimento']:
@@ -80,7 +67,7 @@ class UsuarioForm(forms.Form):
             self.adiciona_erro('Já existe cadastro para esse nome de Usuário')
             valid = False
         email_exists = User.objects.filter(email=self.cleaned_data['email']).exists()
-        if user_name_exists:
+        if email_exists:
             self.adiciona_erro('Já existe usuário cadastrado com esse E-mail')
             valid = False
 
