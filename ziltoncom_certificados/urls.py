@@ -14,12 +14,14 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
-from django.contrib import admin
-from django.urls import path
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import views as auth_views
+
+import core.views
 from core.views import EditarCertificadoView
 from core import views as core_views
-from django.contrib.auth import views as auth_views
-from django.contrib.auth.decorators import login_required
+from django.contrib import admin
+from django.urls import path
 
 
 urlpatterns = [
@@ -34,4 +36,5 @@ urlpatterns = [
     path('cadastrar_certficado/', core_views.cadastrar_certificado, name='cadastrar_certificado'),
     path('certificados/delete/<int:cod_cert>/', core_views.excluir_certificado, name='excluir_certificado'),
     path('certificados/editar/<int:pk>/', login_required(EditarCertificadoView.as_view()), name='editar_certificado'),
+    path('relatorio/', core.views.gerar_relatorio_pdf, name='relatorio'),
 ]
