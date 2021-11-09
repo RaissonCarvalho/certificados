@@ -7,12 +7,13 @@ from core.models import Certificados
 from django.shortcuts import render
 from django.db import transaction
 from reportlab.lib.pagesizes import A4
-from reportlab.pdfgen import canvas
-from reportlab.lib.units import inch
+from reportlab.lib.styles import ParagraphStyle
+from reportlab.platypus.paragraph import Paragraph
 from django.http import FileResponse
 import io
 from reportlab.platypus import SimpleDocTemplate, Table
 from reportlab.platypus.tables import TableStyle
+from datetime import date
 
 
 def get_user(request):
@@ -107,16 +108,30 @@ def cadastrar_usuario(request):
     return render(request, 'cadastrar_usuario.html', {'form': form})
 
 
+@login_required()
 def gerar_relatorio_pdf(request):
     pdf = io.BytesIO()
 
     doc = SimpleDocTemplate(pdf, pagesize=A4, title='Relatório de Certificados')
 
+
     certificados = Certificados.objects.all().order_by('empresa')
 
     story = []
 
-    data = [['EMPRESA', 'CPF/CNPJ', 'DATA VENCIMENTO', 'DIAS EXP.']]
+    # paragraph_style = ParagraphStyle(
+    #     name='paragraph_style',
+    #     fontName='Courier-Bold',
+    #     fontSize=18,
+    #     spaceAfter=15,
+    #
+    # )
+
+    # story.append(Paragraph('RELATÓRIO DE CERTIFICADOS EMITIDO EM '+ str(date.today().strftime('%d/%m/%Y')), style=paragraph_style, bulletText=None))
+
+    table_header = ['EMPRESA', 'CPF/CNPJ', 'DATA VENCIMENTO', 'DIAS EXP.']
+
+    data = [table_header]
 
     for certificado in certificados:
         data.append([certificado.empresa,
@@ -124,7 +139,7 @@ def gerar_relatorio_pdf(request):
                      certificado.datavencimento,
                      certificado.calcula_dias_vencimento(), ])
 
-    t = Table(data)
+    t = Table(data, repeatRows=1)
 
     t.setStyle(TableStyle(
         [
@@ -142,4 +157,4 @@ def gerar_relatorio_pdf(request):
     doc.build(story)
     pdf.seek(0)
 
-    return FileResponse(pdf, as_attachment=True, filename='relatorio.pdf')
+    return FileResponse(pdf, as_attachment=False, filename='Relatorio.pdf')
